@@ -1,5 +1,26 @@
+:root {
+    --global-padding: 0.5rem;
+}
+
+:where(*, *::before, *::after) {
+    box-sizing: border-box;
+}
+
 html {
   font-size: 14px;
+}
+
+body,
+header,
+nav,
+main,
+footer,
+section,
+article,
+div,
+table,
+form {
+    padding: var(--global-padding);
 }
 
 @media (min-width: 768px) {

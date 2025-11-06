@@ -20,7 +20,7 @@ namespace MvcMovie2.Controllers
         }
 
         // GET: Movies
-        public async Task<IActionResult> Index(string movieGenre, string searchString)
+        public async Task<IActionResult> Index(string movieGenre, string searchString, int? selectedYear, string? yearDirection )
         {
             if (_context.Movie == null)
             {
@@ -31,6 +31,11 @@ namespace MvcMovie2.Controllers
             IQueryable<string> genreQuery = from m in _context.Movie
                                             orderby m.Genre
                                             select m.Genre;
+
+            IQueryable<int> yearQuery = from m in _context.Movie
+                                        orderby m.ReleaseDate.Year descending
+                                        select m.ReleaseDate.Year;
+
             var movies = from m in _context.Movie
                          select m;
 
@@ -44,10 +49,29 @@ namespace MvcMovie2.Controllers
                 movies = movies.Where(x => x.Genre == movieGenre);
             }
 
+            if (selectedYear.HasValue && !string.IsNullOrWhiteSpace(yearDirection))
+            {
+                if (string.Equals(yearDirection, "Newer", StringComparison.OrdinalIgnoreCase))
+                {
+       
+                    movies = movies.Where(x => x.ReleaseDate.Year >= selectedYear.Value);
+                }
+                else if (string.Equals(yearDirection, "Older", StringComparison.OrdinalIgnoreCase))
+                {
+                    
+                    movies = movies.Where(x => x.ReleaseDate.Year <= selectedYear.Value);
+                }
+            }
+
             var movieGenreVM = new MovieGenreViewModel
             {
                 Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
-                Movies = await movies.ToListAsync()
+                Years = new SelectList(await yearQuery.Distinct().ToListAsync()),
+                Movies = await movies.ToListAsync(),
+                MovieGenre = movieGenre,
+                SearchString = searchString,
+                SelectedYear = selectedYear,
+                YearDirection = yearDirection
             };
 
             return View(movieGenreVM);
