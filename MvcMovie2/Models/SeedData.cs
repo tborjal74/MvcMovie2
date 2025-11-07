@@ -52,6 +52,30 @@ public static class SeedData
                     Genre = "Western",
                     Rating = "R",
                     Price = 3.99M
+                },
+                 new Movie
+                {
+                    Title = "Avengers: Infinity War ",
+                    ReleaseDate = DateTime.Parse("2018-4-14"),
+                    Genre = "Action",
+                    Rating = "PG",
+                    Price = 7.99M
+                },
+                new Movie
+                {
+                    Title = "Rise of Skywalker",
+                    ReleaseDate = DateTime.Parse("2021-12-20"),
+                    Genre = "Action",
+                    Rating = "PG",
+                    Price = 1.99M
+                },
+                new Movie
+                {
+                    Title = "Upstream",
+                    ReleaseDate = DateTime.Parse("2024-7-21"),
+                    Genre = "Drama",
+                    Rating = "PG",
+                    Price = 2.99M
                 }
 
             );
